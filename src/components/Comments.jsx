@@ -100,12 +100,12 @@ function Comments({ postId }) {
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                     placeholder="Write a comment..."
-                    className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     rows="3"
                 />
                 <button
                     type="submit"
-                    className="mt-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                    className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                     disabled={!newComment.trim()}
                 >
                     Post Comment
@@ -121,7 +121,7 @@ function Comments({ postId }) {
                                 <textarea
                                     value={editContent}
                                     onChange={(e) => setEditContent(e.target.value)}
-                                    className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                    className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                     rows="3"
                                 />
                                 <div className="flex space-x-3">
@@ -144,7 +144,7 @@ function Comments({ postId }) {
                             <>
                                 <div className="flex justify-between items-start mb-2">
                                     <div>
-                                        <h4 className="font-semibold text-purple-600">{comment.userName}</h4>
+                                        <h4 className="font-semibold text-blue-600">{comment.userName}</h4>
                                         <p className="text-sm text-gray-500">{formatDate(comment.$createdAt)}</p>
                                     </div>
                                     {userData.$id === comment.userId && (
