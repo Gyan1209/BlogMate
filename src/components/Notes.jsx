@@ -62,13 +62,13 @@ function Notes({ postId }) {
                     <textarea
                         value={note}
                         onChange={(e) => setNote(e.target.value)}
-                        className="w-full h-32 p-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        className="w-full h-32 p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Write your notes here..."
                     />
                     <div className="flex space-x-3">
                         <button
                             onClick={handleSave}
-                            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                         >
                             Save
                         </button>
@@ -95,7 +95,7 @@ function Notes({ postId }) {
                     ) : (
                         <button
                             onClick={handleEdit}
-                            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                         >
                             Add Notes
                         </button>

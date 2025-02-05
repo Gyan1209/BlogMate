@@ -112,6 +112,7 @@ function AllPosts() {
                             <PostCard 
                                 {...post} 
                                 isCollaborator={post.isCollaborator}
+                                
                             />
                         </div>
                     ))}

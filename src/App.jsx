@@ -22,17 +22,30 @@ function App() {
     .finally(() => setLoading(false))
   }, [])
   
+ 
   return !loading ? (
-    <div className='flex flex-col min-h-screen w-full'>
-      
-        <Header />
-        <main className="flex-grow">
-          <Outlet />
-        </main>
-        <Footer />
-      
-    </div>
+    <div className=" ">
+    <Header />
+    <main className=" h-screen overflow-scroll">
+      <div className="">
+        <Outlet />
+      </div>
+    </main>
+    <Footer />
+  </div>
+  
   ) : null
+  // return !loading ? (
+  //   <div className=''>
+  //     <Header />
+  //     <main className=' '>
+  //       <div className=''>
+  //         <Outlet />
+  //       </div>
+  //     </main>
+  //     <Footer />
+  //   </div>
+  // ) : null
 }
 
 export default App

@@ -46,11 +46,11 @@ function Header() {
   }
 
   return (
-    <header className='py-3 shadow bg-[#151415] sticky top-0 z-50'>
+    <header className=' py-3 shadow bg-slate-800 sticky top-0 z-50'>
       <Container>
         <nav className='flex'>
           <div className='mr-4'>
-            <Link to='/' className='inline-block text-white px-6 py-2 duration-200 hover:bg-yellow-400 rounded-full'>
+            <Link to='/' className='inline-block text-white px-6 duration-200 hover:underline underline-offset-4'>
               <Logo width='70px'/>
             </Link>
           </div>
@@ -60,8 +60,8 @@ function Header() {
                 <li key={item.name}>
                   <button
                     onClick={() => navigate(item.slug)}
-                    className={`inline-block px-6 py-2 duration-200 hover:bg-yellow-400 rounded-full
-                      ${isActive(item.slug) ? 'bg-yellow-200 text-gray-900 font-bold' : 'text-white'}`}
+                    className={`inline-block px-6 py-1 duration-200 text-white hover:underline underline-offset-4
+                      ${isActive(item.slug) ? 'underline underline-offset-4  font-bold' : 'text-black-600'}`}
                   >
                     {item.name}
                   </button>
@@ -69,7 +69,7 @@ function Header() {
               ) : null
             )}
             {authStatus && (
-              <li>
+              <li className='m-1'>
                 <Dashboard />
               </li>
             )}

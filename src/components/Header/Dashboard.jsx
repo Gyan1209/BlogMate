@@ -32,7 +32,7 @@ function Dashboard() {
         <div className="relative" ref={dropdownRef}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="inline-block px-6 py-2 duration-200 hover:bg-yellow-400 rounded-full text-white"
+                className="inline-block px-4 duration-200 text-white hover:underline underline-offset-4"
             >
                 Dashboard
             </button>
@@ -40,16 +40,16 @@ function Dashboard() {
             {isOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-50">
                     <ul>
-                        <li className='px-2 py-1 hover:bg-gray-100'>
+                        <li className='px-2 py-1 hover:bg-gray-200'>
                             <Link to="/profile">Profile</Link>
                         </li>
-                        <li className='px-2 py-1 hover:bg-gray-100'>
+                        <li className='px-2 py-1 hover:bg-gray-200'>
                             <Link to="/invitations">Invitations</Link>
                         </li>
-                        <li className='px-2 py-1 hover:bg-gray-100'>
+                        <li className='px-2 py-1 hover:bg-gray-200'>
                             <Link to="/my-notes">My Notes</Link>
                         </li>
-                        <li className='px-2 py-1 hover:bg-gray-100'>
+                        <li className='px-2 py-1 hover:bg-gray-200'>
                             <button
                                 onClick={logoutHandler}
                             >

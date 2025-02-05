@@ -54,7 +54,7 @@ function Like({ postId }) {
                 disabled={!userData}
                 className={`flex items-center space-x-1 px-3 py-1 rounded-lg transition-colors ${
                     userLike 
-                        ? 'bg-purple-600 text-white hover:bg-purple-700' 
+                        ? 'bg-blue-600 text-white hover:bg-blue-700' 
                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
             >
