@@ -7,18 +7,21 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import chatGPTService from "../../services/geminiai";
 import toast from 'react-hot-toast';
+// import { nanoid } from "@reduxjs/toolkit";
 
 export default function PostForm({ post }) {
+    // console.log(post.featured_image,"pppppppppppp");
     const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
         defaultValues: {
             title: post?.title || "", 
-            slug: post?.$id || "",
+            slug: post?.slug || "",
             content: post?.content || "",
             status: post?.status || "active",
-            summary: post?.summary || ""
+            summary: post?.summary || "",
+            image:post?.featured_image||""
         },
     });
-
+    // console.log(image,"iiiiiiiiii");
     const navigate = useNavigate();
     const userData = useSelector((state) => state.auth.userData);
     const [error, setError] = useState(null);
@@ -54,30 +57,30 @@ export default function PostForm({ post }) {
     const submit = async (data) => {
         try {
             if (post) {
+                console.log(data.image[0],"ffffffffff");
                 const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
+                
 
-                if (file) {
-                    appwriteService.deleteFile(post.featuredImage);
-                }
+                // if (file) {
+                //     appwriteService.deleteFile(post.featuredImage);
+                // }
 
-                const dbPost = await appwriteService.updatePost(post.$id, {
+                const dbPost = await appwriteService.updatePost(post.slug,{
                     ...data,
-                    featuredImage: file ? file.$id : post.featuredImage,
+                    featuredImage: file ? file : post.featured_image,
                 });
-
+                console.log(dbPost,"dddddddddd");
                 if (dbPost) {
-                    navigate(`/post/${dbPost.$id}`);
+                    navigate(`/post/${dbPost.slug}`);
                 }
             } else {
                 const file = await appwriteService.uploadFile(data.image[0]);
-
                 if (file) {
-                    const fileId = file.$id;
-                    data.featuredImage = fileId;
-                    const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id, userName: userData.name });
-
+                    data.featuredImage = file;
+                    const dbPost = await appwriteService.createPost({ ...data});
+                    // console.log(`inside Post form`,dbPost.user_id," ", dbPost.slug);
                     if (dbPost) {
-                        navigate(`/post/${dbPost.$id}`);
+                        navigate(`/post/${dbPost.slug}`);
                     }
                 }
             }
@@ -86,26 +89,7 @@ export default function PostForm({ post }) {
         }
     };
 
-    const slugTransform = useCallback((value) => {
-        if (value && typeof value === "string")
-            return value
-                .trim()
-                .toLowerCase()
-                .replace(/[^a-zA-Z\d\s]+/g, "-")
-                .replace(/\s/g, "-");
-
-        return "";
-    }, []);
-
-    React.useEffect(() => {
-        const subscription = watch((value, { name }) => {
-            if (name === "title") {
-                setValue("slug", slugTransform(value.title), { shouldValidate: true });
-            }
-        });
-
-        return () => subscription.unsubscribe();
-    }, [watch, slugTransform, setValue]);
+    
 
     return (
         <div className="min-h-screen  sm:px-6 lg:px-8">
@@ -129,16 +113,6 @@ export default function PostForm({ post }) {
                                         placeholder="Enter an engaging title"
                             
                                         {...register("title", { required: true })}
-                                    />
-                                    <Input
-                                        
-                                        placeholder="your-post-url"
-                                        className="mb-4 hidden "
-                                       
-                                        {...register("slug", { required: true })}
-                                        onInput={(e) => {
-                                            setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
-                                        }}
                                     />
                                 </div>
 
@@ -171,11 +145,12 @@ export default function PostForm({ post }) {
                                                 className="font-semibold"
                                             />
                                             {post && (
-                                                <div className="mt-4">
+                                                <div className="mt-4 ">
                                                     <img
-                                                        src={appwriteService.getFilePreview(post.featuredImage)}
-                                                        alt={post.title}
-                                                        className="rounded-lg w-full h-48 object-cover"
+                                                        src={appwriteService.getFilePreview(post.featured_image)}
+                                                        alt={"previous image"}
+                                                        className="w-full h-auto object-cover rounded-xl"
+
                                                     />
                                                 </div>
                                             )}
@@ -206,14 +181,14 @@ export default function PostForm({ post }) {
                                     </div>
                                 </div>
 
-                                {post && (
+                                {/* {post && (
                                     <div className="bg-gray-50 rounded-xl p-6">
                                         <PostCollaboration 
                                             postId={post.$id} 
                                             onError={(msg) => setError(msg)}
                                         />
                                     </div>
-                                )}
+                                )} */}
                             </div>
                         </div>
 
@@ -229,7 +204,7 @@ export default function PostForm({ post }) {
                                 bgColor={post ? "bg-green-500" : "bg-blue-600"}
                                 className="px-8 py-2 rounded-lg hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
                             >
-                                {post ? "Update Story" : "Publish Story"}
+                                {post ? "Update " : "Publish"}
                             </Button>
                         </div>
                     </form>

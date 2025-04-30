@@ -5,20 +5,24 @@ import {login} from '../store/authSlice'
 import {Button, Input, Logo} from './index.js'
 import {useDispatch} from 'react-redux'
 import {useForm} from 'react-hook-form'
+import {toast} from "react-hot-toast";
 
 function Signup() {
     const navigate = useNavigate()
     const [error, setError] = useState("")
     const dispatch = useDispatch()
-    const {register, handleSubmit} = useForm()
+    const {register, handleSubmit,formState:{errors}} = useForm()
 
     const create = async(data) => {
         setError("")
         try {
-            const userData = await authService.createAccount(data)
-            if (userData) {
-                const userData = await authService.getCurrentUser()
-                if(userData) dispatch(login(userData));
+            const response = await authService.createAccount(data);
+            if(response.status!=201){
+                toast.error(response.message);
+            }
+            else {
+                dispatch(login(response.loginData));
+                toast.success(response.message)
                 navigate("/")
             }
         } catch (error) {
@@ -48,32 +52,59 @@ function Signup() {
 
                 <form onSubmit={handleSubmit(create)}>
                     <div className='space-y-5'>
-                        <Input
-                        label="Full Name: "
-                        placeholder="Enter your full name"
-                        {...register("name", {
-                            required: true,
-                        })}
-                        />
-                        <Input
-                        label="Email: "
-                        placeholder="Enter your email"
-                        type="email"
-                        {...register("email", {
-                            required: true,
-                            validate: {
-                                matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
-                                "Email address must be a valid address",
-                            }
-                        })}
-                        />
-                        <Input
-                        label="Password: "
-                        type="password"
-                        placeholder="Enter your password"
-                        {...register("password", {
-                            required: true,})}
-                        />
+                        <div>
+                            <Input
+                            label="Full Name: "
+                            placeholder="Enter your full name"
+                            {...register("name", {
+                                required: "Name is required",
+                            })}
+                            />
+                            {errors.name &&(<p className="text-red-500 text-sm mt-1">{errors.name.message}</p>)}
+                        </div>
+                        
+                        <div>
+                            <Input
+                            label="Email:"
+                            placeholder="Enter your email"
+                            type="email"
+                            {...register("email", {
+                                required: "Email is required",
+                                validate: {
+                                matchPattern: (value) =>
+                                    /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
+                                    "Email address must be a valid address",
+                                },
+                            })}
+                            />
+                            {errors.email && (
+                            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                            )}
+                        </div>
+        
+                        <div>
+                            <Input
+                            label="Password:"
+                            type="password"
+                            placeholder="Enter your password"
+                            {...register("password", {
+                                required: "Password is required",
+                                minLength: {
+                                value: 8,
+                                message: "Password must be at least 8 characters",
+                                },
+                                validate: {
+                                hasNumber: (value) =>
+                                    /\d/.test(value) || "Password must contain at least one number",
+                                hasSpecialChar: (value) =>
+                                    /[!@#$%^&*(),.?":{}|<>]/.test(value) || "Password must contain at least one special character",
+                                },
+                            })}
+                            />
+                            {errors.password && (
+                            <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+                            )}
+                        </div>
                         <Button type="submit" className="w-full">
                             Create Account
                         </Button>

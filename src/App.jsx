@@ -5,6 +5,7 @@ import authService from "./appwrite/auth"
 import {login, logout} from "./store/authSlice"
 import { Footer, Header } from './components'
 import { Outlet } from 'react-router-dom'
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -14,7 +15,7 @@ function App() {
     authService.getCurrentUser()
     .then((userData) => {
       if (userData) {
-        dispatch(login({userData}))
+        dispatch(login(userData))
       } else {
         dispatch(logout())
       }
@@ -26,6 +27,7 @@ function App() {
   return !loading ? (
     <div className=" ">
     <Header />
+    <Toaster position="top-right" reverseOrder={false} />
     <main className=" h-screen overflow-scroll">
       <div className="">
         <Outlet />
@@ -35,17 +37,7 @@ function App() {
   </div>
   
   ) : null
-  // return !loading ? (
-  //   <div className=''>
-  //     <Header />
-  //     <main className=' '>
-  //       <div className=''>
-  //         <Outlet />
-  //       </div>
-  //     </main>
-  //     <Footer />
-  //   </div>
-  // ) : null
+
 }
 
 export default App

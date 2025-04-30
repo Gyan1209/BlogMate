@@ -3,7 +3,7 @@ import appwriteService from "../appwrite/config"
 import { Link } from 'react-router-dom'
 import Modal from './Modal'
 
-function PostCard({$id, title, featuredImage, content, summary, $createdAt, userId, isCollaborator, userName, status = "active"}) {
+function PostCard({id, slug,title, featured_image, content, summary, created_at, user_id, isCollaborator=false, name, status = "active"}) {
     const [showSummary, setShowSummary] = useState(false);
 
     const formatDate = (dateString) => {
@@ -39,16 +39,16 @@ function PostCard({$id, title, featuredImage, content, summary, $createdAt, user
                             <div className="flex items-center justify-between mb-3">
                                 <div className="flex items-center text-sm text-gray-600">
                                     <div className="w-8 h-8 bg-yellow-900 rounded-full flex items-center justify-center text-white font-medium mr-2">
-                                        {userName?.charAt(0).toUpperCase()}
+                                        {name?.charAt(0).toUpperCase()}
                                     </div>
-                                    <span className="text-gray-600 font-bold">{userName}</span>
+                                    <span className="text-gray-600 font-bold">{name}</span>
                                     <span className="mx-2 text-grey-400">•</span>
-                                    <span className="text-gray-600">{formatDate($createdAt)}</span>
+                                    <span className="text-gray-600">{formatDate(created_at)}</span>
                                 </div>
                                 
                             </div>
 
-                            <Link to={`/post/${$id}`} className='text-left'>
+                            <Link to={`/post/${slug}`} className='text-left'>
                                 <h2 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-blue-700 transition-colors duration-200 line-clamp-2">
                                     {title}
                                 </h2>
@@ -92,7 +92,8 @@ function PostCard({$id, title, featuredImage, content, summary, $createdAt, user
 
                         <div >
                         <img 
-                            src={appwriteService.getFilePreview(featuredImage)} 
+                            src={appwriteService.getFilePreview(featured_image)} 
+                            //modify getFilePreview method;
                             alt={title}
                             className=" my-8 absolute inset-0 rounded-lg w-full h-full object-cover transform group-hover:scale-100 transition-transform duration-300"
                         />

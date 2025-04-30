@@ -10,6 +10,9 @@ const conf = {
     appwriteCollaborationId: String(import.meta.env.VITE_APPWRITE_INVITATIONS_COLLECTION_ID),
     viteopenapikey:String(import.meta.env.VITE_OPENAI_API_KEY),
     geminiApiKey: String(import.meta.env.VITE_GEMINI_API_KEY),
+    backendUrl: String(import.meta.env.VITE_BACKEND_URL),
+    tinyMceKey:String(import.meta.env.VITE_TinyMCE_Key),
 }
+// console.log(import.meta.env.VITE_BACKEND_URL);
 
 export default conf

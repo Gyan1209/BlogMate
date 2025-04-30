@@ -126,7 +126,7 @@ function Profile() {
                         )}
 
                         <div className="flex items-center space-x-4 mb-6">
-                            <div className="w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center text-3xl font-bold text-white">
+                            <div className="w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center text-4xl font-bold text-black">
                                 {userData.name.charAt(0).toUpperCase()}
                             </div>
                             {!isEditing ? (
@@ -171,7 +171,7 @@ function Profile() {
                                             <button
                                                 type="submit"
                                                 disabled={loading}
-                                                className="px-4 py-2 bg-yellow-400 text-white rounded-md hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 disabled:opacity-50"
+                                                className="px-4 py-2 bg-yellow-400 text-Black rounded-md hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 disabled:opacity-50"
                                             >
                                                 {loading ? "Saving..." : "Save Changes"}
                                             </button>

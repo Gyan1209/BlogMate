@@ -5,20 +5,25 @@ import {Button, Input, Logo} from "./index"
 import {useDispatch} from "react-redux"
 import authService from "../appwrite/auth"
 import {useForm} from "react-hook-form"
-
+import {toast} from "react-hot-toast";
 function Login() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const {register, handleSubmit} = useForm()
+    const {register, handleSubmit,formState: { errors },} = useForm()
     const [error, setError] = useState("")
 
     const login = async(data) => {
         setError("")
         try {
-            const session = await authService.login(data)
-            if (session) {
-                const userData = await authService.getCurrentUser()
-                if(userData) dispatch(authLogin(userData));
+            const response = await authService.login(data)
+            if(response.status!=200) {
+                toast.error(response.message);
+                console.log(response.message)
+            }
+            else {
+                dispatch(authLogin(response.userData));
+                console.log(response.message);
+                toast.success(response.message);
                 navigate("/")
             }
         } catch (error) {
@@ -48,27 +53,50 @@ function Login() {
         </p>
         {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
         <form onSubmit={handleSubmit(login)} className='mt-8'>
-            <div className='space-y-5'>
-                <Input
-                label="Email: "
-                placeholder="Enter your email"
-                type="email"
-                {...register("email", {
-                    required: true,
-                    validate: {
-                        matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
-                        "Email address must be a valid address",
-                    }
-                })}
-                />
-                <Input
-                label="Password: "
-                type="password"
-                placeholder="Enter your password"
-                {...register("password", {
-                    required: true,
-                })}
-                />
+        <div className='space-y-5'>
+                <div>
+                    <Input
+                    label="Email:"
+                    placeholder="Enter your email"
+                    type="email"
+                    {...register("email", {
+                        required: "Email is required",
+                        validate: {
+                        matchPattern: (value) =>
+                            /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
+                            "Email address must be a valid address",
+                        },
+                    })}
+                    />
+                    {errors.email && (
+                    <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                    )}
+                </div>
+
+                <div>
+                    <Input
+                    label="Password:"
+                    type="password"
+                    placeholder="Enter your password"
+                    {...register("password", {
+                        required: "Password is required",
+                        minLength: {
+                        value: 6,
+                        message: "Password must be at least 6 characters",
+                        },
+                        validate: {
+                        hasNumber: (value) =>
+                            /\d/.test(value) || "Password must contain at least one number",
+                        hasSpecialChar: (value) =>
+                            /[!@#$%^&*(),.?":{}|<>]/.test(value) || "Password must contain at least one special character",
+                        },
+                    })}
+                    />
+                    {errors.password && (
+                    <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+                    )}
+                </div>
+
                 <Button
                 type="submit"
                 className="w-full"
