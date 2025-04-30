@@ -21,9 +21,7 @@ function AllPosts() {
         try {
             setLoading(true)
             // Get user's own posts
-            const userPosts = await appwriteService.getPosts([
-                Query.equal("userId", userData.$id)
-            ])
+            const userPosts = await appwriteService.getPosts(userData.id);
 
             // Get posts where user is a collaborator
             const collaboratedPosts = await appwriteService.getCollaboratedPosts(userData.email)
