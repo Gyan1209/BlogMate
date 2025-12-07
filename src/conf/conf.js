@@ -8,7 +8,6 @@ const conf = {
     appwriteCommentsCollectionId: String(import.meta.env.VITE_APPWRITE_COMMENTS_COLLECTION_ID),
     appwriteBucketId: String(import.meta.env.VITE_APPWRITE_BUCKET_ID),
     appwriteCollaborationId: String(import.meta.env.VITE_APPWRITE_INVITATIONS_COLLECTION_ID),
-    viteopenapikey:String(import.meta.env.VITE_OPENAI_API_KEY),
     geminiApiKey: String(import.meta.env.VITE_GEMINI_API_KEY),
 }
 
