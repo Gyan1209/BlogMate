@@ -94,7 +94,8 @@ function PostCard({$id, title, featuredImage, content, summary, $createdAt, user
                         <img 
                             src={appwriteService.getFilePreview(featuredImage)} 
                             alt={title}
-                            className=" my-8 absolute inset-0 rounded-lg w-full h-full object-cover transform group-hover:scale-100 transition-transform duration-300"
+                            className=
+                            " my-8 absolute inset-0 scale-90 rounded-lg w-full h-full object-fit transform group-hover:scale-100 transition-transform duration-300"
                         />
                         </div>
                         
