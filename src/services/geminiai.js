@@ -21,10 +21,11 @@ class SummaryService {
 
     const prompt = `
 Generate a concise, reader-friendly summary of the blog post below.
-- Maximum 150 words
+- Maximum 25% words of the content
 - Focus on main ideas and conclusions
 - Do not add new information
 - Avoid repetition
+- maintain a professional reader friendly tone
 
 Blog post:
 ${plainText}
@@ -45,10 +46,9 @@ ${plainText}
             }
           ],
           generationConfig: {
-            temperature: 0.4,
+            temperature: 0.9,
             topK: 40,
-            topP: 0.9,
-            maxOutputTokens: 150
+            topP: 0.9
           }
         })
       }
